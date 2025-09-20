@@ -14,7 +14,7 @@ app.use(express.json());
 const API_KEY = process.env.SERPHOUSE_API_KEY; // API klíč jen v ENV
 const ENDPOINT = "https://api.serphouse.com/serp/google/organic";
 
-// Proxy endpoint
+// ⚡ Proxy endpoint MUSÍ BÝT PŘED statickými soubory
 app.post("/search", async (req, res) => {
   try {
     const response = await fetch(ENDPOINT, {
@@ -25,9 +25,15 @@ app.post("/search", async (req, res) => {
       },
       body: JSON.stringify(req.body)
     });
-
     const data = await response.json();
-    res.json(data);
+
+    // vybereme jen titulky + odkazy z výsledků SERPHouse
+    const results = data.organic_results?.map(r => ({
+      title: r.title,
+      link: r.link
+    })) || [];
+
+    res.json({ results });
   } catch (e) {
     res.status(500).json({ error: e.toString() });
   }
