@@ -11,10 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// slouží statické soubory (index.html) z public/
-app.use(express.static(path.join(__dirname, "public")));
-
-const API_KEY = process.env.SERPHOUSE_API_KEY; // API KEY je jen v Renderu
+const API_KEY = process.env.SERPHOUSE_API_KEY; // API klíč jen v ENV
 const ENDPOINT = "https://api.serphouse.com/serp/google/organic";
 
 // Proxy endpoint
@@ -35,6 +32,9 @@ app.post("/search", async (req, res) => {
     res.status(500).json({ error: e.toString() });
   }
 });
+
+// Statické soubory (frontend)
+app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server běží na portu ${PORT}`));
