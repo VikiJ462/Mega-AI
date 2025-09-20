@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mwga AI</title>
+  <title>Mega AI</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -92,13 +92,16 @@
         });
 
         const data = await response.json();
-        if (data.results.length === 0) {
+        const results = Array.isArray(data.results) ? data.results : [];
+
+        if (results.length === 0) {
           document.getElementById("responseBox").textContent = "Žádné výsledky.";
         } else {
-          document.getElementById("responseBox").innerHTML = data.results
+          document.getElementById("responseBox").innerHTML = results
             .map(r => `<a href="${r.link}" target="_blank">${r.title}</a>`)
             .join("<br>");
         }
+
         document.getElementById("sourceBox").textContent = `Zdroj: ${window.location.origin}/search | Query: "${query}"`;
 
       } catch (error) {
