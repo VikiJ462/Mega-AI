@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mega AI</title>
+  <title>SERPHouse AI Search</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -55,7 +55,7 @@
   </style>
 </head>
 <body>
-  <h1>Mega AI</h1>
+  <h1>SERPHouse AI Search</h1>
   <input type="text" id="query" placeholder="Zadej dotaz...">
   <button onclick="search()">Vyhledat</button>
 
@@ -63,7 +63,7 @@
   <div id="sourceBox">Zdroj: žádný</div>
 
   <script>
-    const BACKEND_URL = "/search"; // proxy endpoint běžící na Renderu
+    const BACKEND_URL = "/search"; // proxy endpoint
 
     async function search() {
       const query = document.getElementById("query").value.trim();
