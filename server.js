@@ -17,9 +17,13 @@ app.get('/api/serphouse', async (req, res) => {
 
     try {
         const response = await fetch(`https://api.serphouse.com/search?api_key=${SERPHouse_API_KEY}&query=${query}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         res.json({ response: data, source: 'SERPHouse API' });
     } catch (error) {
+        console.error('Error fetching data from SERPHouse API:', error);
         res.status(500).json({ error: 'An error occurred while fetching data from SERPHouse API' });
     }
 });
