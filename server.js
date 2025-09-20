@@ -1,9 +1,12 @@
-const express = require('express');
-const fetch = require('node-fetch');
+import express from 'express';
+import fetch from 'node-fetch';
+import cors from 'cors';
+
 const app = express();
 const port = process.env.PORT || 3000;
 const SERPHouse_API_KEY = process.env.SERPHOUSE_API_KEY;
 
+app.use(cors());
 app.use(express.static('public'));
 
 app.get('/api/serphouse', async (req, res) => {
