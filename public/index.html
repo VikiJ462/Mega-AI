@@ -1,114 +1,18 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mega AI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111827;
-      color: #f9fafb;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    h1 {
-      margin-bottom: 20px;
-      color: #60a5fa;
-    }
-    input, button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-    }
-    input {
-      width: 300px;
-    }
-    button {
-      background: #2563eb;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1d4ed8;
-    }
-    #responseBox, #sourceBox {
-      margin-top: 20px;
-      padding: 15px;
-      background: #1f2937;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 800px;
-      white-space: pre-wrap;
-      overflow-x: auto;
-    }
-    #sourceBox {
-      margin-top: 10px;
-      background: #374151;
-      font-size: 0.9rem;
-    }
-    a {
-      color: #60a5fa;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Search App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Mega AI</h1>
-  <input type="text" id="query" placeholder="Zadej dotaz...">
-  <button onclick="search()">Vyhledat</button>
-
-  <div id="responseBox">Výsledky se zobrazí tady...</div>
-  <div id="sourceBox">Zdroj: žádný</div>
-
-  <script>
-    const BACKEND_URL = "/search";
-
-    async function search() {
-      const query = document.getElementById("query").value.trim();
-      if (!query) {
-        alert("Zadej dotaz!");
-        return;
-      }
-
-      try {
-        const response = await fetch(BACKEND_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            q: query,
-            domain: "google.com",
-            lang: "cs",
-            device: "desktop"
-          })
-        });
-
-        const data = await response.json();
-        const results = Array.isArray(data.results) ? data.results : [];
-
-        if (results.length === 0) {
-          document.getElementById("responseBox").textContent = "Žádné výsledky.";
-        } else {
-          document.getElementById("responseBox").innerHTML = results
-            .map(r => `<a href="${r.link}" target="_blank">${r.title}</a>`)
-            .join("<br>");
-        }
-
-        document.getElementById("sourceBox").textContent = `Zdroj: ${window.location.origin}/search | Query: "${query}"`;
-
-      } catch (error) {
-        document.getElementById("responseBox").textContent = "Chyba: " + error;
-        document.getElementById("sourceBox").textContent = "Zdroj: žádný";
-      }
-    }
-  </script>
+    <div class="container">
+        <h1>AI Search App</h1>
+        <input type="text" id="searchInput" placeholder="Enter your search query">
+        <button id="searchButton">Search</button>
+        <div id="results"></div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
