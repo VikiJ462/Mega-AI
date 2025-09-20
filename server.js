@@ -15,9 +15,13 @@ app.get('/api/serphouse', async (req, res) => {
         return res.status(400).json({ error: 'Query parameter "q" is required' });
     }
 
+    const url = `https://api.serphouse.com/search?api_key=${SERPHouse_API_KEY}&query=${encodeURIComponent(query)}`;
+    console.log(`Fetching data from: ${url}`);
+
     try {
-        const response = await fetch(`https://api.serphouse.com/search?api_key=${SERPHouse_API_KEY}&query=${query}`);
+        const response = await fetch(url);
         if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status}`);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
