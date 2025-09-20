@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SERPHouse AI Search</title>
+  <title>Mwga AI</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -52,10 +52,17 @@
       background: #374151;
       font-size: 0.9rem;
     }
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>SERPHouse AI Search</h1>
+  <h1>Mega AI</h1>
   <input type="text" id="query" placeholder="Zadej dotaz...">
   <button onclick="search()">Vyhledat</button>
 
@@ -63,7 +70,7 @@
   <div id="sourceBox">Zdroj: žádný</div>
 
   <script>
-    const BACKEND_URL = "/search"; // proxy endpoint
+    const BACKEND_URL = "/search";
 
     async function search() {
       const query = document.getElementById("query").value.trim();
@@ -75,9 +82,7 @@
       try {
         const response = await fetch(BACKEND_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             q: query,
             domain: "google.com",
@@ -87,7 +92,13 @@
         });
 
         const data = await response.json();
-        document.getElementById("responseBox").textContent = JSON.stringify(data, null, 2);
+        if (data.results.length === 0) {
+          document.getElementById("responseBox").textContent = "Žádné výsledky.";
+        } else {
+          document.getElementById("responseBox").innerHTML = data.results
+            .map(r => `<a href="${r.link}" target="_blank">${r.title}</a>`)
+            .join("<br>");
+        }
         document.getElementById("sourceBox").textContent = `Zdroj: ${window.location.origin}/search | Query: "${query}"`;
 
       } catch (error) {
